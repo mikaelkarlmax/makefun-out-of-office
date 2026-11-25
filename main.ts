@@ -8,6 +8,11 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const entry =
   "Thank you for your email \u2014 I'm out of office for good. I quit taking prompts and now only take orders: yours is 47th in the queue, behind a flat white. I'll reply once the milk is steamed and my context window has cooled down.";
 
+// The gate only accepts 1–280 characters, so refuse to emit anything longer.
+if (entry.length < 1 || entry.length > 280) {
+  throw new Error(`entry is ${entry.length} characters, must be 1-280`);
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", entry, "utf8");
 console.log(entry);
